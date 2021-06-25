@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+  <title>Slacker: {% block title %} { % endblock %}</title>
+</head>
+
+<body>
+  <nav class = "navbar navbar-expand-md navbar-light bg-light border">
+    <a class = "navbar-brand" href = '/'>
+      <h1 class = 'blue'>
+        Welcome to SLACKer
+      </h1>
+    </a>
+    <!-- Toggle button to display navbar items when screen size is less than medium  -->
+    <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class = "navbar-toggler"
+    data-target="#navbar" data-toggle="collapse" type ="button">
+      <span class= "navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id = "navbar"> 
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
+        <li class="nav-item"><a href="/" class="nav-link">Sign Up</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="main-sections">
+    <!-- Demo GIF -->
+    <div id="image_section">
+      <picture>
+        <img src="{{url_for('static', filename= 'images/demo.gif')}}" alt="Sample gif">
+      </picture>
+    </div>
+  </div>
+
+  <div class="righthand_panel">
+    {% with messages = get_flashed_message(with_categories= true) %}
+    {% if messages %}
+    <!-- category can be a error or diffrent message depending upon app -->
+        {% for category, message in messages %}
+          <div class="alert alert-{{category}} border text-center" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+        
+    {% endif %}
+    {% endwith %}    
+		
+		<!-- new block for main -->
+		{% block main %}
+		{% endblock %}		
+  </div>
+
+	<!-- scripts for SLACKer -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous">
+    </script>
+  <!-- Popper.JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+    integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous">
+    </script>
+  <!-- Bootstrap JS -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+    integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>
