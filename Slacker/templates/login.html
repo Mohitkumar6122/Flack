@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% from "helper.html" import displayField %}
+
+{% block title %}
+Log In
+{% endblock %}
+
+{% block main %}
+<h2>Login now!</h2>
+<p>Enter your Username and Password to join SLACKer</p>
+
+<form action="{{ url_for('login') }}" , method="POST">
+  {{ displayField(form.username, "Username", autocomplete="off", autofocus=true) }}
+  {{ displayField(form.password, "Password") }}
+
+  <div class="form-group">
+    {{ form.submit_button(class="btn btn-primary") }}
+  </div>
+  {{ form.csrf_token }}
+</form>
+<hr>
+<p>Don't have an account? <a href={{url_for("index")}}>Sign up</a></p>
+{% endblock %}
