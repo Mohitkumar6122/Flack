@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% from "helper.html" import displayField %}
+
+{% block title %}
+Sign Up
+{% endblock %}
+
+{% block main %}
+<h2>Getting Started!</h2>
+<form action="{{ url_for('index') }}" , method="POST">
+
+  {{ displayField(form.username, "Username", autofocus = true, autocomplete="off") }}
+  {{ displayField(form.password, "Password") }}
+  {{ displayField(form.password_confirm, "Confirm Password") }}
+
+  <div class="form-group">
+    {{ form.submit_button(class = "btn") }}
+  </div>
+
+  {{ form.csrf_token }}
+</form>
+
+<hr>
+<p>Have an account? <a href={{url_for("login")}}>Log In</a></p>
+{% endblock %}

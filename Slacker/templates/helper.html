@@ -1,0 +1,16 @@
+<!-- This html file is for macros for other html files -->
+<!-- https://explore-flask.readthedocs.io/en/latest/templates.html#creating-macros -->
+
+{% macro displayField(fieldName, placeholder) %}
+<div class="form-group">
+  {{ fieldname(class_="form-control", placeholder=placeholder, **kwargs) }}
+
+  <!-- Display Error Message -->
+  <ul class="formErrorHelp">
+    {% for error in fieldName.errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endmacro %}

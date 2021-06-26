@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+{% from "helper.html" import displayField %}
+
+{% block title %}
+Chat
+{% endblock %}
+
+{% block main %}
+
+<!-- SideBar -->
+<nav id="sidebar" class="navbar-light bg-light border">
+  <ul class="list-unstyled components">
+    <li>
+
+      <a href="#channels" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Channels</a>
+      <a href="#" id="add_channel">
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle-fill" fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd"
+            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4a.5.5 0 0 0-1 0v3.5H4a.5.5 0 0 0 0 1h3.5V12a.5.5 0 0 0 1 0V8.5H12a.5.5 0 0 0 0-1H8.5V4z" />
+        </svg>
+      </a>
+      <ul class="collapse show list-unstyled" id="channels">
+        {% for channel in channels %}
+        <li href="#">{{ channel }}</li>
+        {% endfor %}
+      </ul>
+    </li>
+    <li>
+      <a href="#userlist" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Direct Message</a>
+      <ul class="collapse show list-unstyled" id="usersList">
+        {% for user in users %}
+        <li>
+          <a href="#">{{ user }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<!-- Message Area -->
+<div id="message_area">
+  <!-- Show Message -->
+  <div id="message_section"></div>
+
+  <!-- Send Message -->
+  <div id="input_section">
+    <input type="text" id="user_message" class="form-group" placeholder="Type here..." aria-label="Type message here"
+      autofocus autocomplete="off">
+    <button id="send_message" class="btn btn-dark" type="button"> Send </button>
+  </div>
+</div>
+<!-- Message Area Ended -->
+
+<!-- Some JS -->
+<script>
+  const username = `{{ current_user.username }}`;
+  const users = `{{ users }}`;
+  console.log(users);
+</script>
+
+<!-- SocketIO JS Library -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+<!-- our custom scoket JS -->
+<script defer src="{{ url_for('static', filename='scripts/socket.js') }}"></script>
+<!-- our custom chat JS -->
+<script defer src="{{ url_for('static', filename='scripts/socket.js') }}"></script>
+
+{% endblock %}

@@ -8,22 +8,22 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-  <title>Slacker: {% block title %} { % endblock %}</title>
+  <title>Slacker: {% block title %} {% endblock %}</title>
 </head>
 
 <body>
-  <nav class = "navbar navbar-expand-md navbar-light bg-light border">
-    <a class = "navbar-brand" href = '/'>
-      <h1 class = 'blue'>
+  <nav class="navbar navbar-expand-md navbar-light bg-light border">
+    <a class="navbar-brand" href='/'>
+      <h1 class='blue'>
         Welcome to SLACKer
       </h1>
     </a>
     <!-- Toggle button to display navbar items when screen size is less than medium  -->
-    <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class = "navbar-toggler"
-    data-target="#navbar" data-toggle="collapse" type ="button">
-      <span class= "navbar-toggler-icon"></span>
+    <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+      data-target="#navbar" data-toggle="collapse" type="button">
+      <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id = "navbar"> 
+    <div class="collapse navbar-collapse" id="navbar">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
         <li class="nav-item"><a href="/" class="nav-link">Sign Up</a></li>
@@ -38,27 +38,26 @@
         <img src="{{url_for('static', filename= 'images/demo.gif')}}" alt="Sample gif">
       </picture>
     </div>
+
+    <div class="righthand_panel">
+      {% with messages = get_flashed_messages(with_categories= true) %}
+      {% if messages %}
+      <!-- category can be a error or diffrent message depending upon app -->
+      {% for category, message in messages %}
+      <div class="alert alert-{{ category }} border text-center" role="alert">
+        {{ message }}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+
+      <!-- new block for main -->
+      {% block main %}
+      {% endblock %}
+    </div>
   </div>
 
-  <div class="righthand_panel">
-    {% with messages = get_flashed_message(with_categories= true) %}
-    {% if messages %}
-    <!-- category can be a error or diffrent message depending upon app -->
-        {% for category, message in messages %}
-          <div class="alert alert-{{category}} border text-center" role="alert">
-            {{ message }}
-          </div>
-        {% endfor %}
-        
-    {% endif %}
-    {% endwith %}    
-		
-		<!-- new block for main -->
-		{% block main %}
-		{% endblock %}		
-  </div>
-
-	<!-- scripts for SLACKer -->
+  <!-- scripts for SLACKer -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous">
     </script>
