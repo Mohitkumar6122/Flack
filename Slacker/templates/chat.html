@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SLACKer Chat</title>
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+  <link href="{{ url_for('static', filename='images/favicon-people-arrows.ico') }}" rel="icon">
+  <!-- Custom css for chat pages -->
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/chat.css')}}">
+</head>
+
+<body>
+  <!--Modal New Channel Start  -->
+  <div class="modal fade" id="createChannelModal" tabindex="-1" role="dialog" aria-labelledby="createChannelModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role='document'>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createChannelModalLabel">
+            Create New Channel
+          </h5>
+          <button type="button" class="close" , data-dismis="modal" aria-label="Close">
+            <span aria-hidden="true"> &times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="create_channel_form" class="Form">
+            <div class="form-group">
+              <label for="new_channel_name" class="col-form-label">Name:</label>
+              <input type="text" class="form-control" id="new_channel_name">
+              <small id="channelHelp" class="form-text text-danger">
+                Channel name is already taken<br>Please choose another name.
+              </small>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" id="create_channel_btn" class="btn btn-primary">
+                Create
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal New Channel END -->
+  <!-- Modal Add User to Channel Start -->
+  <div class="modal fade" id="addUsersModal" tabindex="-1" role="dialog" aria-labelledby="addUsersModalLabel"
+    aria-hidden="true">
+    <div class="model-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addUsersModalLabel">
+            Add Users
+          </h5>
+          <button type="button" data-dismis="modal" class="close" aria-label="Close">
+            <span aria-hidden="true"> &times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="addUsers" id="add_users_form">
+            <div class="form-group">
+              <select id="users_to_add_Selected" class="selectpicker" multiple data-live-search="true"></select>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Add User to Channel Ends -->
+  <!-- BEGIN Wrapper -->
+  <div class="wrapper">
+    <!-- Top Navigation Bar begins -->
+    <nav id="primary_nav" class="navbar navbar-expand-sm p-0" style="background-color: #325C74">
+      <div class="container-fluid">
+        <button id="toggle_sidebar_btn">
+          <span>Sidebar</span>
+          <i class="fa fa-chevron-down" aria-hidden="true"></i>
+        </button>
+        <!-- bootstrap toggle button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
+          aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <div class="navbar-nav ml-auto">
+            <a href="{{ url_for('logout') }}" class="nav-item">
+              <span style="color: white;"> Logout</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- Top Navigation Bar Ends -->
+    <!-- Secondary Navbar starts -->
+    <nav id="secondary_nav">
+      <div id="curr_user_display">
+        Welcome
+        <div id="get_username">
+          {{ current_user.username }}
+        </div>
+      </div>
+      <div class="channel_nav">
+        <ul class="navbar-nav">
+          <li id="curr_channel" class="nav-item">
+            <a href="#" class="nav-link"></a>
+          </li>
+          <li class="nav-item" id="num_users">
+            <a href="#" class="nav-link" data-toggle="tooltip" data-placement="bottom">
+              <i class="fa fa-user" aria-hidden="true"></i>
+            </a>
+          </li>
+          <li class="nav-item" id="add_users">
+            <span data-toggle="modal" data-target="#addUsersModal">
+              <span id="add_users_btn_wrapper" data-toggle="tooltip" data-placement="bottom" title="Click to add users">
+                <button id="add_users_btn" type="button" class="nav-link">
+                  <i class="fa fa-user-plus" aria-hidden="true"></i>
+                </button>
+              </span>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!-- Messaging area and sidebar container -->
+    <div class="" id="main_section">
+      <!-- Left Side bar -->
+      <nav id="sidebar">
+        <ul class="list-styled components">
+          <li>
+            <div id="channel_header">
+              <a href="#channels" data-toggle="collapse" aria-expanded="false">
+                <i class="fa fa-caret-right" aria-hidden="true"></i>
+                Channels
+              </a>
+              <!-- Button Trigger Modal -->
+              <button type="button" id="add_channel" class="ml-auto" data-toggle="modal"
+                data-target="#createChannelModal">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+              </button>
+            </div>
+            <ul class="collapse show remove-style select-elements" id="channels">
+              {% for channel in current_user.channels %}
+              {% if channel.name == 'general' %}
+              <li id="{{channel.name}}"> <a href="#">{{channel.name}}</a></li>
+              {% else %}
+              <li id="{{channel.name}}">
+                <a href="#">{{channel.name}}</a>
+                <div class="remove-channel btn-group dropright ">
+                  <button type="button" class="btn remove-channel-btn" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
+                  <div class="dropdown-menu" data-channel="{{channel.name}}">
+                    <a class="dropdown-item" id="leave" href="#">leave</a>
+                    {% if channel.name != 'other' %}
+                    <a class="dropdown-item" id="delete" href="#">delete</a>
+                    {% endif %}
+                  </div>
+                </div>
+              </li>
+              {% endif %}
+              {% endfor %}
+            </ul>
+          </li>
+          <li>
+            <a href="#usersList" data-toggle="collapse" aria-expanded="false">
+              <i class="fa fa-caret-right" aria-hidden="true"></i>
+              Direct Message
+            </a>
+            <ul class="collapse show list-unstyled select-elements" id="usersList">
+              {% for user in users %}
+              <li><a href="#">{{ user }}</a></li>
+              {% endfor %}
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <!-- Left Side Bar ends -->
+      <!-- BEGIN Message area -->
+      <div id="message_area">
+        <!-- Display the messages -->
+        <div id="message_section">
+        </div>
+        <!-- Send messages -->
+        <div id="input_section" class="input-group mb-3">
+          <input type="text" id="user_message" class="form-control" placeholder="Type here..."
+            aria-label="Type message here" autofocus autocomplete="off">
+          <button id="send_message" class="btn" type="button"> <i class="fa fa-paper-plane"
+              aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <!-- End Message area-->
+    </div>
+    <!-- END main section-->
+  </div>
+  <!-- END wrapper -->
+  <meta id="get_all_users" data-users="{{users |tojson |forceescape}}">
+  <script>
+    const username = `{{ current_user.username }}`;
+                         // const users = '{{ users }}';
+                         // console.log(users)
+  </script>
+  <!-- SocketIO JS Library -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+  <!-- Bootstrap -->
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+  <script src="{{ url_for('static', filename='scripts/lib.js') }}"></script>
+  <!-- our custom chat JS -->
+  <script defer src="{{ url_for('static', filename='scripts/chat.js') }}"></script>
+  <!-- our custom scoket JS -->
+  <script defer src="{{ url_for('static', filename='scripts/socket.js') }}"></script>
+  <!-- Font Awesome JS -->
+  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+    integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+    crossorigin="anonymous"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+    integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
