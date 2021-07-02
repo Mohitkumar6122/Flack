@@ -1,0 +1,86 @@
+nav .navbar-brand .blue
+{
+    color: #386c8a;
+}
+
+#righthand_pannel p {
+    font-size: 0.8em;
+    color: grey;
+}
+
+#main_sections, html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+
+}
+
+#main_sections {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+#image_section picture img{
+    border: 1px solid;
+}
+
+#righthand_pannel {
+
+    flex: 1;
+}
+
+.formErrorHelp{
+    list-style-type:none;
+    padding:0px;
+    color: red;
+}
+
+h2 {
+    color: #6996AD;
+}
+.btn {
+    background-color: #6996AD;
+    color: white;
+}
+
+.btn:hover {
+    background-color: #20B2AA;
+}
+
+
+
+@media (min-width: 800px){
+    #image_section {
+        padding: 2em;
+    }
+
+    #righthand_pannel {
+
+        padding: 2em;
+        max-width: 40%;
+
+    }
+
+}
+
+
+@media only screen and (max-width: 800px) {
+    picture {
+        display: none;
+    }
+
+    #righthand_pannel {
+
+        padding: 5em;
+
+    }
+
+  }
