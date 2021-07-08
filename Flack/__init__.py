@@ -9,9 +9,7 @@ from config import Config
 
 # Configure the flask app
 app = Flask(__name__, instance_relative_config=True)
-#app.config.from_object('config')
 app.config.from_object(Config)
-#app.config.from_pyfile('config.py')
 
 # Initialize the data base
 db = SQLAlchemy(app)
