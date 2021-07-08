@@ -1,5 +1,4 @@
-from flack.models import User, Message, Channel
-import flack.application
+from .applications import *
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -25,6 +24,7 @@ login_manager.login_view = "login"
 login_manager.login_message_category = "danger"
 
 
+from .models import User, Message, Channel
 db.create_all()
 db.session.commit()
 
