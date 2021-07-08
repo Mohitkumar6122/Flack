@@ -37,12 +37,13 @@ class User(db.Model, UserMixin):
     @password.setter
     def password(self, plaintext):
         """
-            Hashed the plaintext passwords and stores it in the databse
+            Hashed the plaintext passwords and stores it in the database
             Bcrypt library is used to hash the password.
 
         Args:
             plaintext (string): the plaintext unhashed password.
         """
+        # decode utf is used with python-3 
         self.password_hash = bcrypt.generate_password_hash(
             plaintext).decode("utf-8")
 
