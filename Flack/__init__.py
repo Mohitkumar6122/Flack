@@ -1,5 +1,4 @@
-from flack.models import User, Message, Channel
-import flack.application
+from .applications import *
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -21,10 +20,12 @@ socketio = SocketIO(app)
 # Configure the flask login Manager
 login_manager = LoginManager()
 login_manager.init_app(app)
+# The name of the view to redirect to when the user needs to log in
 login_manager.login_view = "login"
 login_manager.login_message_category = "danger"
 
 
+from .models import User, Message, Channel
 db.create_all()
 db.session.commit()
 
