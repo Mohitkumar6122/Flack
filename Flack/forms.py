@@ -43,11 +43,9 @@ class RegistrationForm(FlaskForm):
         Raises:
             ValidationError: if the username entered in the field is already in the database
         """
-        test = User.query.filter_by(username=field.data).first()
-
         if User.query.filter_by(username=field.data).first():
             raise ValidationError(
-                f"Username '{field.data}' is already in use. Please chose another")
+                f"Username '{field.data}' is already in use. Please choose a diffrent username :(")
 
 
 class LogInForm(FlaskForm):
