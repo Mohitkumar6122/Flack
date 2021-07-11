@@ -117,11 +117,11 @@ $(document).ready(function () {
 
   function leaveChannel(channel, isToBeDeleted) {
     $.ajax({
-      url: "chat/leave_channel",
+      url: "chat/leave_channel", // to the "leave_channel" view in app__.py
       type: "POST",
       data: JSON.stringify({ channel: channel, isToBeDeleted: isToBeDeleted }),
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
+      contentType: "application/json; charset=utf-8", // sends in format
+      dataType: "json", // recieves in the format
 
       success: function (data) {
         if (data.success) {

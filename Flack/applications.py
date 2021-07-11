@@ -137,7 +137,7 @@ def add_users():
         room with same channel name to allow for sending and
         receiving real time messages in the room
     Returns:
-        json: a key "success" is set true upon successfull
+        json: a key "success" is set true upon successful
             execution of the client api call. 
     """
 

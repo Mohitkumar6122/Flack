@@ -1,24 +1,29 @@
-function addUsersOptions(){
+// function which returns true if a user is added
+// else returns false (if no user is left to add to the channel)
+function addUsersOptions() {
 
-    var isUpdated = false;
+    let isUpdated = false;
     const activeChannelUsers = JSON.parse(localStorage.getItem("activeChannelUsers"));
     const users = $("#get_all_users").data("users");
-    console.log(users);
+    // console.log(users);
     $("#users_to_add_selected").html("");
 
-    for (var i = 0; i < users.length; i++){
+    for (let i = 0; i < users.length; i++){
 
         if (!activeChannelUsers.includes(users[i])){
-            $("#users_to_add_selected").append("<option>" + users[i] + "</option>");
-            $('#users_to_add_selected').selectpicker('refresh');
-            isUpdated = true;
+          $("#users_to_add_selected").append(
+            "<option>" + users[i] + "</option>"
+          );
+          //  use the refresh method to update the UI to match the new state.
+          $("#users_to_add_selected").selectpicker("refresh");
+          isUpdated = true;
         }
     }
     
     return isUpdated;
 }
 
-// update the tooltip for user addd button for the active channel. If all users are already
+// update the tooltip for user add button for the active channel. If all users are already
 // added to the active channel, then it disables the button to add more users
 function updateUserTooltip() {
 
@@ -42,17 +47,16 @@ function getUsersInChannel(){
     const users = JSON.parse(localStorage.getItem("activeChannelUsers"));
     let text = "<p>This channel has users:"
     
-    for (var i = 0; i < users.length; i++){
+    for (let i = 0; i < users.length; i++){
         text += "<br>" + users[i]
     }
 
     text += '<\p>';
     return text;
-
 }
 
 
-// create the appropriate html to display the message based on the dictionary data
+// creates the html to display the message based on the dictionary data
 function displayMessage(data){ 
 
     let lastDate = $("#message_section").children(".date").last();
@@ -84,11 +88,12 @@ function displayMessage(data){
 }
 
 function removeUserFromStorage(user){
-    var activeChannelUsers = JSON.parse(localStorage.getItem("activeChannelUsers"));
-    var i = activeChannelUsers.findIndex(username=>username===user);
+    let activeChannelUsers = JSON.parse(localStorage.getItem("activeChannelUsers"));
+    let i = activeChannelUsers.findIndex(username=>username===user);
 
     if (i != -1){
-        activeChannelUsers.splice(i,1);
+        activeChannelUsers.splice(i, 1);
+        // after updating activechannelusers store it in local storage
         localStorage.setItem("activeChannelUsers", JSON.stringify(activeChannelUsers));
     }
 }
