@@ -57,7 +57,7 @@ $(document).ready(function () {
     ) {
       var parentElem = $(event.target.parentNode);
       // prints the channel name which is clicked
-      console.log(parentElem.data("channel"));
+      // console.log(parentElem.data("channel"));
 
       if (event.target.id == "leave") {
         leaveChannel(parentElem.data("channel"), false);
@@ -76,11 +76,11 @@ $(document).ready(function () {
 
         activeChannelName = localStorage.getItem("activeChannelName");
         channelSelected = event.target.innerText || event.target.textContent;
-        console.log(channelSelected);
-        console.log(channelSelected.length);
+        // console.log(channelSelected);
+        // console.log(channelSelected.length);
 
         if (activeChannelName != channelSelected) {
-          console.log(activeChannelName);
+          // console.log(activeChannelName);
           localStorage.setItem("activeChannelName", channelSelected);
           document.querySelector("#curr_channel").firstElementChild.innerHTML =
             "#" + channelSelected;
@@ -140,7 +140,7 @@ $(document).ready(function () {
             $($("#" + activeChannelName)).addClass("active");
           }
           // delete the channel
-          if (data.isToBeDeleted) $("#" + data.channel).remove();
+          $("#" + data.channel).remove();
 
           $("#curr_channel a").html("#" + activeChannelName);
           getMessages(activeChannelName);
@@ -164,7 +164,7 @@ $(document).ready(function () {
         if (data.success) {
           $("#message_section").html("");
 
-          for (var i = 0; i < data.entries.length; i++) {
+          for (let i = 0; i < data.entries.length; i++) {
             displayMessage(data.entries[i]);
           }
 
