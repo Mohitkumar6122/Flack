@@ -62,3 +62,18 @@ Flack
 
 ### Cloning and editing
 * After cloning, replace the secret key (i.e modify the line ```SECRET_KEY = os.environ.get('SECRET_KEY')```) and the Database URL (i.e the line ```SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')```) in ```config.py``` with your own values. 
+
+### Running Project
+First of all you have to prepare your virtual environment. Select
+a location where you want to store the files and follow the following steps.
+```
+    mkdir Projects
+    cd Projects
+    git clone https://github.com/Mohitkumar6122/Flack.git
+    python3 -m venv virtenv
+    source venv/bin/activate
+    pip install -r requirements.txt
+    python applications.py
+```
+It will create a Projects Folder which will contain all files of project.
+Then after running applications.py. A chrome window will open which contains a interacive window where app will be running.

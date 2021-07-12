@@ -1,5 +1,4 @@
-// Server side is implemented in flask app 
-// Client side for socket-io 
+// Client side implementation for socket-io 
 $(document).ready(function () {
 
     // Connect to websocket
