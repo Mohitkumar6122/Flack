@@ -2,9 +2,9 @@
 $(document).ready(function () {
 
     // Connect to websocket
-    var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
-    var channelCreated = false;
-    var isSideBarShown = true;
+    let socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+    let channelCreated = false;
+    let isSideBarShown = true;
 
     // To style all selects based on the bootsrap-select CSS
     $('select').selectpicker();
@@ -15,16 +15,17 @@ $(document).ready(function () {
     // });
 
     socket.on("leave channel", data => {
-        var currUsers = parseInt($("#num_users a span").html()) - 1;
+        let currUsers = parseInt($("#num_users a span").html()) - 1;
         removeUserFromStorage(data.username);
         $("#num_users a span").html(currUsers);
         updateUserTooltip();
-        
+        // removeUserFromStorage and updareUserToolTip are present in lib.js
     });
 
+    // receives data from server
     socket.on("message", data => {
         const activeChannelName = localStorage.getItem("activeChannelName");
-        console.log("message received");
+        // console.log("message received");
         if (activeChannelName === data.channel){
             $("#message_section").animate({ scrollTop: $('#message_section').prop("scrollHeight")}, 700);
             displayMessage(data);
@@ -40,7 +41,7 @@ $(document).ready(function () {
         console.log($("#" + data.channel));
 
         if ($("#" + data.channel).length == 0){
-            var newItem =  '<li id="' + data.channel + '"><a href="#">' + data.channel + '</a> \
+            let newItem =  '<li id="' + data.channel + '"><a href="#">' + data.channel + '</a> \
                                 <div class="remove-channel btn-group dropright"> \
                                     <button type="button" class="btn remove-channel-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> \
                                         <i class="fa fa-times" aria-hidden="true"></i> \
@@ -58,7 +59,7 @@ $(document).ready(function () {
         }
     });
 
-    // toggle the sidebar menue when button is pressed
+    // toggle the sidebar menu when button is pressed
     $("#toggle_sidebar_btn").on("click", function(e){
         console.log("button clicked")
         $(this).find('svg').toggleClass('fa-chevron-down fa-chevron-up')
@@ -79,7 +80,7 @@ $(document).ready(function () {
 
         const activeChannelName = localStorage.getItem("activeChannelName");
 
-        console.log(activeChannelName)
+        // console.log(activeChannelName)
         const inputMessage = document.querySelector("#user_message");
         socket.send({"channel": activeChannelName, "msg" : inputMessage.value});
         inputMessage.value = "";
@@ -95,7 +96,7 @@ $(document).ready(function () {
     
     $('#create_channel_form').on('submit', function(e){
         e.preventDefault();
-        var value = $("#new_channel_name").val();
+        let value = $("#new_channel_name").val();
 
         $.ajax({
             url: 'chat/create_channel',
@@ -106,7 +107,7 @@ $(document).ready(function () {
             success: function(data){
                 if(data.success){
 
-                    var newItem =  '<li id="' + value + '"><a href="#">' + value + '</a> \
+                    let newItem =  '<li id="' + value + '"><a href="#">' + value + '</a> \
                                         <div class="remove-channel btn-group dropright"> \
                                             <button type="button" class="btn remove-channel-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> \
                                                 <i class="fa fa-times" aria-hidden="true"></i> \
@@ -149,8 +150,8 @@ $(document).ready(function () {
             success: function(data){
                 if(data.success){
 
-                    var currUsers = parseInt($("#num_users a span").html()) + selected_users.length;
-                    var activeChannelUsers = JSON.parse(localStorage.getItem("activeChannelUsers"));
+                    let currUsers = parseInt($("#num_users a span").html()) + selected_users.length;
+                    let activeChannelUsers = JSON.parse(localStorage.getItem("activeChannelUsers"));
                     localStorage.setItem("activeChannelUsers", JSON.stringify(activeChannelUsers.concat(selected_users)));
                     $("#num_users a span").html(currUsers);
                     updateUserTooltip();
