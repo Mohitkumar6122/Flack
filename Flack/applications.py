@@ -108,7 +108,7 @@ def get_messages():
             - "entries": a dictionary of containing "msg" (the message content),
                  "time" (the message sent timestamp), "date" (the date message was sent)
             - "users": all the users in the requested channel
-            - "sucess": a boolean to indicate the whether the api call was successful
+            - "success": a boolean to indicate the whether the api call was successful
     """
     data = request.get_json()
     channel_name = data["channel"]
@@ -137,7 +137,7 @@ def add_users():
         room with same channel name to allow for sending and
         receiving real time messages in the room
     Returns:
-        json: a key "success" is set true upon successfull
+        json: a key "success" is set true upon successful
             execution of the client api call. 
     """
 
@@ -210,7 +210,7 @@ def delete_channel():
     Returns:
         json: has values for keys:
             - "channel": the channel that client left or deleted
-            - "success": a boolean that is set to true on successfull
+            - "success": a boolean that is set to true on successful
                     execution of the API call
     """
     data = request.get_json()
@@ -228,7 +228,7 @@ def delete_channel():
         db.session.commit()
     else:
         channel_leave.users.remove(current_user)
-        leave_msg = "Left" + "#" + channel_leave.name
+        leave_msg = (f"Left # {channel_leave.name}")
         msg = current_user.add_message(
             msg=leave_msg, channel_id=channel_leave.id)
         db.session.commit()
@@ -307,4 +307,4 @@ def on_connect():
 
 
 if __name__ == "__main__":
-    app.run()
+    socketio.run(app) 
