@@ -1,4 +1,6 @@
-$(document).ready(function() {
+// Server side is implemented in flask app 
+// Client side for socket-io 
+$(document).ready(function () {
 
     // Connect to websocket
     var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
@@ -10,9 +12,7 @@ $(document).ready(function() {
 
     // When user is connected connected, 
     // socket.on("connect", () => {
-
     //     socket.emit("client connected");
-
     // });
 
     socket.on("leave channel", data => {

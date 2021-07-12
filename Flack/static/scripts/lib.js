@@ -43,6 +43,7 @@ function updateUserTooltip() {
     }
 }
 
+// returns html which contains all users curently present in a channel
 function getUsersInChannel(){
     const users = JSON.parse(localStorage.getItem("activeChannelUsers"));
     let text = "<p>This channel has users:"
