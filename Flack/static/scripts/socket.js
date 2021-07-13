@@ -1,20 +1,21 @@
-// Client side implementation for socket-io 
-$(document).ready(function () {
-
+// Client side implementation for socket-io
+$(document).ready(function() {
     // Connect to websocket
-    let socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+    let socket = io.connect(
+        location.protocol + "//" + document.domain + ":" + location.port
+    );
     let channelCreated = false;
     let isSideBarShown = true;
 
-    // To style all selects based on the bootsrap-select CSS
-    $('select').selectpicker();
+    // To style all selects based on the bootstrap-select CSS
+    $("select").selectpicker();
 
-    // When user is connected connected, 
+    // When user is connected connected,
     // socket.on("connect", () => {
     //     socket.emit("client connected");
     // });
 
-    socket.on("leave channel", data => {
+    socket.on("leave channel", (data) => {
         let currUsers = parseInt($("#num_users a span").html()) - 1;
         removeUserFromStorage(data.username);
         $("#num_users a span").html(currUsers);
@@ -23,191 +24,200 @@ $(document).ready(function () {
     });
 
     // receives data from server
-    socket.on("message", data => {
+    socket.on("message", (data) => {
         const activeChannelName = localStorage.getItem("activeChannelName");
         // console.log("message received");
-        if (activeChannelName === data.channel){
-            $("#message_section").animate({ scrollTop: $('#message_section').prop("scrollHeight")}, 700);
+        if (activeChannelName === data.channel) {
+            $("#message_section").animate({
+                    scrollTop: $("#message_section").prop("scrollHeight")
+                },
+                700
+            );
             displayMessage(data);
-        }else{
+        } else {
             // add a bubble next to channel to indicate unread message in visible
             // channels
         }
-
     });
 
-    socket.on("user added", data => {
+    socket.on("user added", (data) => {
+        // console.log($("#" + data.channel));
 
-        console.log($("#" + data.channel));
-
-        if ($("#" + data.channel).length == 0){
-            let newItem =  '<li id="' + data.channel + '"><a href="#">' + data.channel + '</a> \
+        if ($("#" + data.channel).length == 0) {
+            let newItem =
+                '<li id="' +
+                data.channel +
+                '"><a href="#">' +
+                data.channel +
+                '</a> \
                                 <div class="remove-channel btn-group dropright"> \
                                     <button type="button" class="btn remove-channel-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> \
                                         <i class="fa fa-times" aria-hidden="true"></i> \
                                     </button>\
-                                    <div class="dropdown-menu" data-channel="'+ data.channel + '"> \
+                                    <div class="dropdown-menu" data-channel="' +
+                data.channel +
+                '"> \
                                         <a class="dropdown-item" id="leave" href="#">leave</a> \
                                         <a class="dropdown-item" id="delete" href="#">delete</a> \
                                     </div> \
                                 </div> \
-                            </li>';    
+                            </li>';
 
-            $('#channels').append(newItem);
+            $("#channels").append(newItem);
             $("#channels li").children("div").hide();
-                        
         }
     });
 
     // toggle the sidebar menu when button is pressed
-    $("#toggle_sidebar_btn").on("click", function(e){
-        console.log("button clicked")
-        $(this).find('svg').toggleClass('fa-chevron-down fa-chevron-up')
+    $("#toggle_sidebar_btn").on("click", function(e) {
+        console.log("button clicked");
+        $(this).find("svg").toggleClass("fa-chevron-down fa-chevron-up");
 
-        if (isSideBarShown){
-
+        if (isSideBarShown) {
             $("#sidebar, #curr_user_display").hide();
             isSideBarShown = false;
-        }else{
-
+        } else {
             $("#sidebar, #curr_user_display").show();
             isSideBarShown = true;
         }
-
     });
 
-    $("#send_message").on('click', function(e) {
-
+    $("#send_message").on("click", function(e) {
         const activeChannelName = localStorage.getItem("activeChannelName");
 
         // console.log(activeChannelName)
         const inputMessage = document.querySelector("#user_message");
-        socket.send({"channel": activeChannelName, "msg" : inputMessage.value});
+        socket.send({
+            channel: activeChannelName,
+            msg: inputMessage.value
+        });
         inputMessage.value = "";
         sendButton.disabled = true;
     });
 
-
     $('[data-toggle="tooltip"]').tooltip({
-        html: true
-    })
+        html: true,
+    });
 
-
-    
-    $('#create_channel_form').on('submit', function(e){
+    $("#create_channel_form").on("submit", function(e) {
         e.preventDefault();
         let value = $("#new_channel_name").val();
 
         $.ajax({
-            url: 'chat/create_channel',
-            type: 'POST',
-            data: JSON.stringify({ "channel" : value } ),
+            url: "chat/create_channel",
+            type: "POST",
+            data: JSON.stringify({
+                channel: value
+            }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function(data){
-                if(data.success){
-
-                    let newItem =  '<li id="' + value + '"><a href="#">' + value + '</a> \
+            success: function(data) {
+                if (data.success) {
+                    let newItem =
+                        '<li id="' +
+                        value +
+                        '"><a href="#">' +
+                        value +
+                        '</a> \
                                         <div class="remove-channel btn-group dropright"> \
                                             <button type="button" class="btn remove-channel-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> \
                                                 <i class="fa fa-times" aria-hidden="true"></i> \
                                             </button>\
-                                            <div class="dropdown-menu" data-channel="'+ value + '"> \
+                                            <div class="dropdown-menu" data-channel="' +
+                        value +
+                        '"> \
                                                 <a class="dropdown-item" id="leave" href="#">leave</a> \
                                                 <a class="dropdown-item" id="delete" href="#">delete</a> \
                                             </div> \
                                         </div> \
-                                    </li>';    
-                    
-                    $('#channels').append(newItem);
+                                    </li>';
+
+                    $("#channels").append(newItem);
                     $("#channels li").children("div").hide();
-                    $('#createChannelModal').modal('hide');
+                    $("#createChannelModal").modal("hide");
                     channelCreated = true;
-                    socket.emit("join channel", {"channel": value})
-    
-                }else{
-
-                    $('#channelHelp').css("visibility", "visible");
+                    socket.emit("join channel", {
+                        channel: value
+                    });
+                } else {
+                    $("#channelHelp").css("visibility", "visible");
                 }
-
-            }
+            },
         });
     });
-    
-    $('#add_users_form').on('submit', function(e){
+
+    $("#add_users_form").on("submit", function(e) {
         e.preventDefault();
         const selected_users = $("#users_to_add_selected").val();
-        const activeChannelName = localStorage.getItem("activeChannelName")
-        console.log(selected_users)
-        console.log(activeChannelName)
+        const activeChannelName = localStorage.getItem("activeChannelName");
+        // console.log(selected_users);
+        // console.log(activeChannelName);
         $.ajax({
-            url: 'chat/add_users',
-            type: 'POST',
-            data: JSON.stringify({ "users" : selected_users, "channel" : activeChannelName } ),
+            url: "chat/add_users",
+            type: "POST",
+            data: JSON.stringify({
+                users: selected_users,
+                channel: activeChannelName,
+            }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
 
-            success: function(data){
-                if(data.success){
-
-                    let currUsers = parseInt($("#num_users a span").html()) + selected_users.length;
-                    let activeChannelUsers = JSON.parse(localStorage.getItem("activeChannelUsers"));
-                    localStorage.setItem("activeChannelUsers", JSON.stringify(activeChannelUsers.concat(selected_users)));
+            success: function(data) {
+                if (data.success) {
+                    let currUsers =
+                        parseInt($("#num_users a span").html()) + selected_users.length;
+                    let activeChannelUsers = JSON.parse(
+                        localStorage.getItem("activeChannelUsers")
+                    );
+                    localStorage.setItem(
+                        "activeChannelUsers",
+                        JSON.stringify(activeChannelUsers.concat(selected_users))
+                    );
                     $("#num_users a span").html(currUsers);
                     updateUserTooltip();
-                    $('#addUsersModal').modal('hide');
-    
-                }else{
-
-                }
-
-            }
+                    $("#addUsersModal").modal("hide");
+                } else {}
+            },
         });
-
     });
 
-    $('#createChannelModal').on('shown.bs.modal', function () {
-        $('#new_channel_name').focus();
+    $("#createChannelModal").on("shown.bs.modal", function() {
+        $("#new_channel_name").focus();
     });
 
-    $('#createChannelModal').on('hidden.bs.modal', function () {
-        console.log("here");
-        
-        if (channelCreated){
-            console.log($("#channels").children().last());
+    $("#createChannelModal").on("hidden.bs.modal", function() {
+        if (channelCreated) {
+            // console.log($("#channels").children().last());
             $("#channels").children().last().trigger("click");
             channelCreated = false;
         }
-
     });
 
     $(document).on({
+            mouseenter: function(e) {
+                const text = getUsersInChannel();
+                $("#num_users a").attr("data-original-title", text);
+                $(this).tooltip("show");
+            },
 
-        'mouseenter': function (e) {
-            const text = getUsersInChannel();
-            $("#num_users a").attr('data-original-title', text);
-            $(this).tooltip('show');
+            mouseleave: function(e) {
+                $(this).tooltip("hide");
+            },
         },
-
-        'mouseleave': function (e) {
-            $(this).tooltip('hide');
-        }
-
-    }, '#num_users a');
-
+        "#num_users a"
+    );
 
     $("#channels li").children("div").hide();
-    
+
     $("#channels").on({
+            mouseenter: function(e) {
+                $(this).children("div").show();
+            },
 
-        'mouseenter': function (e) {
-            $(this).children("div").show();
+            mouseleave: function(e) {
+                $(this).children("div").hide();
+            },
         },
-
-        'mouseleave': function (e) {
-            $(this).children("div").hide();
-        }
-
-    }, 'li');
-
+        "li"
+    );
 });

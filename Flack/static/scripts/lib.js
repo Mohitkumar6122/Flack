@@ -8,18 +8,18 @@ function addUsersOptions() {
     // console.log(users);
     $("#users_to_add_selected").html("");
 
-    for (let i = 0; i < users.length; i++){
+    for (let i = 0; i < users.length; i++) {
 
-        if (!activeChannelUsers.includes(users[i])){
-          $("#users_to_add_selected").append(
-            "<option>" + users[i] + "</option>"
-          );
-          //  use the refresh method to update the UI to match the new state.
-          $("#users_to_add_selected").selectpicker("refresh");
-          isUpdated = true;
+        if (!activeChannelUsers.includes(users[i])) {
+            $("#users_to_add_selected").append(
+                "<option>" + users[i] + "</option>"
+            );
+            //  use the refresh method to update the UI to match the new state.
+            $("#users_to_add_selected").selectpicker("refresh");
+            isUpdated = true;
         }
     }
-    
+
     return isUpdated;
 }
 
@@ -30,12 +30,12 @@ function updateUserTooltip() {
     // add user options in multiselect dropdown in the modal that pops up when add user button
     // is pressed. If no users is added, i.e addUsersOptions() returns false, then disable the 
     // add user button and update the tooltip
-    if (!addUsersOptions()){
+    if (!addUsersOptions()) {
 
         $("#add_users span").prop("disabled", true);
         $("#add_users_btn").prop("disabled", true);
         $("#add_users_btn_wrapper").attr('data-original-title', "All users already in this channel");
-    }else{
+    } else {
 
         $("#add_users span").prop("disabled", false);
         $("#add_users_btn").prop("disabled", false);
@@ -44,11 +44,11 @@ function updateUserTooltip() {
 }
 
 // returns html which contains all users curently present in a channel
-function getUsersInChannel(){
+function getUsersInChannel() {
     const users = JSON.parse(localStorage.getItem("activeChannelUsers"));
     let text = "<p>This channel has users:"
-    
-    for (let i = 0; i < users.length; i++){
+
+    for (let i = 0; i < users.length; i++) {
         text += "<br>" + users[i]
     }
 
@@ -58,41 +58,41 @@ function getUsersInChannel(){
 
 
 // creates the html to display the message based on the dictionary data
-function displayMessage(data){ 
+function displayMessage(data) {
 
     let lastDate = $("#message_section").children(".date").last();
     let date = '';
 
-    if (lastDate.length != 0){
+    if (lastDate.length != 0) {
         // trying to get the text inside the span
         lastDate = lastDate.children().html();
     }
 
-    if (lastDate != data.date){
+    if (lastDate != data.date) {
         date += '<div class="date"><span>' + data.date + '</span></div>';
     }
 
 
-    let message =   '<div class="message-container"> \
+    let message = '<div class="message-container"> \
                         <img src="./static/images/man-silhouette-profile-7.png" alt="Avatar" class="avatar"> \
                         <div class="message-text-container"> \
-                            <span class="username">' + data.username  + '</span> \
+                            <span class="username">' + data.username + '</span> \
                             <span class="time">' + ' ' + data.time + '</span> \
-                            <br>' + 
-                            data.msg + 
-                        '</div> \
-                    </div>'; 
-                    
+                            <br>' +
+        data.msg +
+        '</div> \
+                    </div>';
+
 
     $("#message_section").append(date + message);
 
 }
 
-function removeUserFromStorage(user){
+function removeUserFromStorage(user) {
     let activeChannelUsers = JSON.parse(localStorage.getItem("activeChannelUsers"));
-    let i = activeChannelUsers.findIndex(username=>username===user);
+    let i = activeChannelUsers.findIndex(username => username === user);
 
-    if (i != -1){
+    if (i != -1) {
         activeChannelUsers.splice(i, 1);
         // after updating activechannelusers store it in local storage
         localStorage.setItem("activeChannelUsers", JSON.stringify(activeChannelUsers));
