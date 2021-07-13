@@ -2,45 +2,48 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    
+
 }
 
-#main_section{
-    
+#main_section {
+
     display: flex;
     flex-direction: row;
     flex: 1;
 }
 
-#secondary_nav{
-    
+#secondary_nav {
+
     display: flex;
     flex-direction: row;
     flex: 1;
     min-height: 10vh;
-    
+
 
 }
 
-#primary_nav, #secondary_nav{
+#primary_nav,
+#secondary_nav {
     border-bottom: 1px solid #E8E8E8;
-    
+
 }
 
-#curr_user_display, #channel_nav {
+#curr_user_display,
+#channel_nav {
     padding: 1em;
     align-items: center;
 
 }
 
-#channel_nav, #channel_nav ul {
-    
+#channel_nav,
+#channel_nav ul {
+
     display: flex;
     flex-direction: row;
     flex: 1;
 }
 
-#channel_nav ul{
+#channel_nav ul {
     justify-content: space-between;
 }
 
@@ -49,7 +52,8 @@
 }
 
 
-#num_users, #add_users {
+#num_users,
+#add_users {
     flex: 0 0 6vw;
     text-align: center;
 
@@ -64,39 +68,43 @@
 }
 
 
-#sidebar, #curr_user_display {
-    
+#sidebar,
+#curr_user_display {
+
     background-color: #386c8a;
     color: white;
     min-width: 25vw;
-    flex: 0 0 25vw;    
+    flex: 0 0 25vw;
 }
 
-#sidebar li{
+#sidebar li {
     padding: 0.5em;
-    padding-left: 1em   ;
+    padding-left: 1em;
 
 }
 
-#sidebar li a:not(.dropdown-item){
+#sidebar li a:not(.dropdown-item) {
     color: white;
-    text-decoration: none !important;   
+    text-decoration: none !important;
 }
 
-#num_users a, #curr_channel a{
+#num_users a,
+#curr_channel a {
     color: gray
 }
 
-#sidebar ul li ul{
-   padding: 0.5em;
+#sidebar ul li ul {
+    padding: 0.5em;
 }
 
 
-#sidebar ul li ul li:hover, #add_channel:hover{
+#sidebar ul li ul li:hover,
+#add_channel:hover {
     background-color: #6996AD;
 }
 
-#add_channel, .remove-channel-btn{
+#add_channel,
+.remove-channel-btn {
     float: right;
     border: none;
     color: white;
@@ -104,21 +112,21 @@
     border-radius: 30%;
 }
 
-.remove-channel{
+.remove-channel {
     float: right;
 }
 
-.remove-channel-btn{
+.remove-channel-btn {
     padding: 0;
 
 }
 
-.remove-channel-btn:hover{
+.remove-channel-btn:hover {
     opacity: 0.5;
 }
 
 
-#channels li:hover .remove-channel-btn{
+#channels li:hover .remove-channel-btn {
     background-color: #6996AD;
 
 }
@@ -130,15 +138,16 @@
 }
 
 #message_area {
-    
+
     flex: 1;
 }
 
 
 #message_section {
-    
+
     height: 72vh;
-    overflow-y: auto; /*Make  this section scrolable */    
+    overflow-y: auto;
+    /*Make  this section scrolable */
 }
 
 #input_section {
@@ -147,21 +156,25 @@
 
 .remove-style {
     padding: 0;
-    list-style: none; 
-} /* Remove default bullets */
+    list-style: none;
+}
+
+/* Remove default bullets */
 
 #channelHelp {
     visibility: hidden;
 }
 
 #channels li::before {
-    content: "\0023"; /* Unicode bullet symbol */
-    color: white;  /* Bullet color */
+    content: "\0023";
+    /* Unicode bullet symbol */
+    color: white;
+    /* Bullet color */
 }
 
 
 
-#add_users_btn_wrapper  .btn[disabled] {
+#add_users_btn_wrapper .btn[disabled] {
     /* don't let button block mouse events from reaching wrapper */
     pointer-events: none;
 }
@@ -189,19 +202,23 @@
     background-color: #20B2AA;
 }
 
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: white;
-    opacity: 0.7; /* Firefox */
-  }
+    opacity: 0.7;
+    /* Firefox */
+}
 
 .message-container {
-    display: flex; /** set the container as flexbox **/
-    align-items: center; /** align all items vertically **/
+    display: flex;
+    /** set the container as flexbox **/
+    align-items: center;
+    /** align all items vertically **/
     margin-bottom: 10px;
     padding: 1em;
 
 
-  }
+}
 
 .message-text-container {
     margin-left: 10px;
@@ -215,23 +232,25 @@
     width: 50px;
     height: 50px;
     border-radius: 10%;
-  }
+}
 
 .date {
-    width: 100%; 
-    text-align: center; 
+    width: 100%;
+    text-align: center;
     border-bottom: 1px solid rgba(0, 0, 0, .1);
     line-height: 0.1em;
-    margin: 20px 0 20px; 
- } 
- 
-.date span {
-    background:#fff; 
-    padding: 0.5em;
- }
+    margin: 20px 0 20px;
+}
 
- @media only screen and (max-width: 700px) {
-    #sidebar, #curr_user_display {
+.date span {
+    background: #fff;
+    padding: 0.5em;
+}
+
+@media only screen and (max-width: 700px) {
+
+    #sidebar,
+    #curr_user_display {
         display: none;
     }
-  }
+}
