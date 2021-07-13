@@ -1,5 +1,4 @@
-nav .navbar-brand .blue
-{
+nav .navbar-brand .blue {
     color: #386c8a;
 }
 
@@ -8,7 +7,9 @@ nav .navbar-brand .blue
     color: grey;
 }
 
-#main_sections, html, body {
+#main_sections,
+html,
+body {
     height: 100%;
     margin: 0;
 }
@@ -28,7 +29,7 @@ body {
 
 
 
-#image_section picture img{
+#image_section picture img {
     border: 1px solid;
 }
 
@@ -37,15 +38,16 @@ body {
     flex: 1;
 }
 
-.formErrorHelp{
-    list-style-type:none;
-    padding:0px;
+.formErrorHelp {
+    list-style-type: none;
+    padding: 0px;
     color: red;
 }
 
 h2 {
     color: #6996AD;
 }
+
 .btn {
     background-color: #6996AD;
     color: white;
@@ -57,7 +59,7 @@ h2 {
 
 
 
-@media (min-width: 800px){
+@media (min-width: 800px) {
     #image_section {
         padding: 2em;
     }
@@ -83,4 +85,4 @@ h2 {
 
     }
 
-  }
+}

@@ -1,10 +1,10 @@
-from .applications import *
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_socketio import SocketIO
 from config import Config
+from .applications import *
 
 # Configure the flask app
 app = Flask(__name__, instance_relative_config=True)
