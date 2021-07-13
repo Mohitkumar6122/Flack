@@ -18,6 +18,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(25), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
+    # All clients are assigned a room when they connect, named with the session ID of the connection
     sid = db.Column(db.String())
     messages = db.relationship(
         "Message", cascade="all, delete-orphan", backref=db.backref("user", lazy=True))

@@ -81,7 +81,7 @@ def login():
         user = User.query.filter_by(username=login_form.username.data).first()
         login_user(user)
         return redirect(url_for("chat"))
-
+    
     return render_template("login.html", form=login_form)
 
 
@@ -291,7 +291,7 @@ def on_join(data):
 @socketio.on("connect")
 def on_connect():
     """
-        adds the current users to all rooms (channels)
+        Adds the current users to all rooms (channels)
         that it belongs so that it can received socketio
         messages in realtime. Also stores the current
         user's sid to be later used when send direct
