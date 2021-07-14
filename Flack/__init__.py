@@ -31,11 +31,11 @@ db.session.commit()
 
 # create the initial channels
 if (not Channel.query.filter_by(name="general").first()):
-    chan1 = Channel(name="general", is_private=False)
-    db.session.add(chan1)
+    channelGeneral = Channel(name="general", is_private=False)
+    db.session.add(channelGeneral)
     db.session.commit()
 
 if (not Channel.query.filter_by(name="other").first()):
-    chan2 = Channel(name="other", is_private=False)
-    db.session.add(chan2)
+    channelOther = Channel(name="other", is_private=False)
+    db.session.add(channelOther)
     db.session.commit()
