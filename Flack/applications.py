@@ -269,7 +269,8 @@ def message(data):
 
     selected_channel = Channel.query.filter_by(name=data["channel"]).first()
 
-    assert (selected_channel != None)
+    if (not selected_channel) :
+        raise ValueError("Channel does not exist !")
 
     msg_obj = current_user.add_message(
         msg=data["msg"], channel_id=selected_channel.id)
