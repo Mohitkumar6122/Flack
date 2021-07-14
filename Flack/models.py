@@ -1,3 +1,4 @@
+from typing import ItemsView
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from datetime import datetime
@@ -18,7 +19,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(25), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
-    # All clients are assigned a room when they connect, named with the session ID of the connection
+    # All clients are assigned a room when they connect, named with the session ID(sid) of the connection
     sid = db.Column(db.String())
     messages = db.relationship(
         "Message", cascade="all, delete-orphan", backref=db.backref("user", lazy=True))
@@ -106,4 +107,3 @@ class Message(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     channel_id = db.Column(db.Integer, db.ForeignKey(
         "channels.id"), nullable=False)
-
