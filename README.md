@@ -54,7 +54,10 @@ Flack
 * ```requirements.txt```: contains all the Python packages installed for this project and also this file is required for Heroku.
 * ```Procfile```: a file required for heroku.
 
-
+## Tech Stacks
+* Frontend - JavaScript, HTML5, CSS3
+* Backend - Python Flask
+* Database - MySQL, SQL
 
 ## Usage
 ### Running the app:
