@@ -93,8 +93,16 @@ function removeUserFromStorage(user) {
     let i = activeChannelUsers.findIndex(username => username === user);
 
     if (i != -1) {
-        activeChannelUsers.splice(i, 1);
-        // after updating activechannelusers store it in local storage
-        localStorage.setItem("activeChannelUsers", JSON.stringify(activeChannelUsers));
+      activeChannelUsers.splice(i, 1);
+      /* 
+        after updating activechannelusers store it in local storage
+        local storage is prefered because local storage can only be read by the client-side
+        and the data is not sent back to the server for every HTTP request (HTML, images, JavaScript, CSS, etc.),
+        which thus reduces the amount of traffic between client and server.
+     */
+      localStorage.setItem(
+        "activeChannelUsers",
+        JSON.stringify(activeChannelUsers)
+      );
     }
 }
