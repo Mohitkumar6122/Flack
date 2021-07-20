@@ -42,7 +42,7 @@ def index():
 
     # for post requests
     if reg_form.validate_on_submit():
-        # get the inputted fields from the form
+        # gets the input fields from the form
         username = reg_form.username.data
         password = reg_form.password.data
 
@@ -53,8 +53,8 @@ def index():
 
         # add newly registered user to all public channels
         for channel in Channel.query.filter_by(is_private=False):
-            join_msg = "Joined" + "#" + channel.name
-            new_user.add_message(msg=join_msg, channel_id=channel.id)
+            joinMessage = "Joined" + "#" + channel.name
+            new_user.add_message(msg=joinMessage, channel_id=channel.id)
             new_user.channels.append(channel)
             channel.users.append(new_user)
 
@@ -158,9 +158,9 @@ def add_users():
         if user.sid:
             socketio.server.enter_room(user.sid, new_channel.name)
 
-        join_msg = "Joined" + "#" + new_channel.name
+        joinMessage = "Joined" + "#" + new_channel.name
 
-        msg_obj = user.add_message(msg=join_msg, channel_id=new_channel.id)
+        msg_obj = user.add_message(msg=joinMessage, channel_id=new_channel.id)
         # emit the join message to all the users in this new channel
         send_message(msg_obj, username, data["channel"])
 
@@ -196,8 +196,8 @@ def create_channel():
     new_channel.users.append(current_user)
     db.session.commit()
 
-    join_msg = "Joined" + "#" + channel_name
-    current_user.add_message(msg=join_msg, channel_id=new_channel.id)
+    joinMessage = "Joined" + "#" + channel_name
+    current_user.add_message(msg=joinMessage, channel_id=new_channel.id)
 
     return jsonify({"success": True})
 
@@ -269,7 +269,8 @@ def message(data):
 
     selected_channel = Channel.query.filter_by(name=data["channel"]).first()
 
-    assert (selected_channel != None)
+    if (not selected_channel) :
+        raise ValueError("Channel does not exist !")
 
     msg_obj = current_user.add_message(
         msg=data["msg"], channel_id=selected_channel.id)

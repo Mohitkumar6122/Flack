@@ -46,15 +46,18 @@ Flack
 ## File descriptions
 * ```/flack```: the main app module
 * ```application.py```: the main application file containing the logic for registering, login, logout, and other API calls such as adding/removing channels.
-* ```forms.py```: contains the classes for registration form and login in form which uses the Flask-WTForms library
+* ```forms.py```: contains the classes for registration form and login in form which uses the Flask-WTForms library.
 * ```models.py```: Uses Flask SQLAlchemy to abstract away the database tables and there relationships. Models include User, Channel, and Message.
-* ```/templates```: contains all the HTML files to render different views
-* ```/script```: contains all the JavaScript files to run the client side code
-* ```/styles```: contains all the CSS files for styling
-* ```requirements.txt```: contains all the Python packages installed for this project and also this file is required for Heroku
+* ```/templates```: contains all the HTML files to render different views.
+* ```/script```: contains all the JavaScript files to run the client side code.
+* ```/styles```: contains all the CSS files for styling.
+* ```requirements.txt```: contains all the Python packages installed for this project and also this file is required for Heroku.
 * ```Procfile```: a file required for heroku.
 
-
+## Tech Stacks
+* Frontend - JavaScript, HTML5, CSS3
+* Backend - Python Flask
+* Database - MySQL, SQL
 
 ## Usage
 ### Running the app:
