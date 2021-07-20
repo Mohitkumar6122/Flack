@@ -156,13 +156,13 @@ $(document).ready(function() {
 
     function getMessages(channel) {
         $.ajax({
-            url: "messages",
-            type: "POST",
+            url: "messages", // url to send to (in application.py)
+            type: "POST",   //type of request to send
             data: JSON.stringify({
                 channel: channel
             }),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
+            contentType: "application/json; charset=utf-8", // send data as json type
+            dataType: "json", // recieves data as a json type
 
             success: function(data) {
                 if (data.success) {

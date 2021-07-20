@@ -62,7 +62,7 @@ $(document).ready(function() {
                                     </div> \
                                 </div> \
                             </li>';
-
+            // adds the new user to the channel 
             $("#channels").append(newItem);
             $("#channels li").children("div").hide();
         }
